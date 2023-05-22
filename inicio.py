@@ -14,9 +14,6 @@ etiqueta_imagen = tk.Label(ventana, image=imagen_tk)
 etiqueta_imagen.pack()
 
 boton_admin = tk.Button(ventana, text = "Administrador", bg = "dark blue", fg="white", font = ("calibri", 12))
-boton_usuario = tk.Button(ventana, text = "Usuario", bg = "dark blue", fg="white", font = ("calibri", 12))
-
 boton_admin.place(relx = 0.5, rely = 0.5, width = 130, anchor = 'c')
-boton_usuario.place(relx = 0.5, rely = 0.6, width = 130, anchor = 'c')
 
 ventana.mainloop()
