@@ -1,38 +1,60 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 from tkinter import messagebox
+from constantes import *
+from functools import partial
 
-ventana = tk.Tk()
-ventana.geometry("900x700")
-ventana.title("Cold Porcelain: Administrativo")
-ventana.configure(bg = "white")
+def signin(entry_user, entry_password):
+  
+  username = entry_user.get()
+  password = entry_password.get()
+  
+  if (username == "adminColdPorcelain" and password == "inventario"):
+    new_window = tk.Tk()
+    new_window.geometry(DIMENSIONES_DE_PANTALLA)
+    new_window.title("Cold Porcelain: Administrativo")
+    new_window.configure(bg = "white")
+    new_window.resizable(False, False)
 
-def nuevaVentana():
+  elif (username != "adminColdPorcelain" and password != "inventario"):
+    messagebox.showerror("Error","Datos ingresados incorrectos")
+  elif (password != "inventario"):
+    messagebox.showerror("Error","Contraseña incorrecta")
+  elif (username != "adminColdPorcelain"):
+    messagebox.showerror("Error","Usuario incorrecto")
+
+def Login(ventana):
   ventana.withdraw()
-  nueva = tk.Toplevel()
-  nueva.geometry("900x700")
-  nueva.configure(bg = "white")
+  new = tk.Toplevel()
+  new.geometry(DIMENSIONES_DE_PANTALLA)
+  ventana.title("Cold Porcelain: Administrativo")
+  new.configure(bg = "white")
+  new.resizable(False, False)
 
-imagen = Image.open("/mnt/c/Users/Juanfran/OneDrive/Escritorio/-w-/Company-Cold_Porcelain/Presentación2.png")
-imagen_tk = ImageTk.PhotoImage(imagen)
+  #imagen
+  logoImagen = Image.open(r"C:\Users\franc\OneDrive\Escritorio\Universidad del Valle\Company-Cold_Porcelain\Imagenes\Logo.png")
+  logoImagen_tk = ImageTk.PhotoImage(logoImagen)
 
-# Crear un widget de etiqueta con la imagen
-etiqueta_imagen = tk.Label(ventana, image=imagen_tk, height=300, width=500, bg="white").place(x=200, y=100)
+  #etiqueta
+  etiqueta_logo = tk.Label(new, image=logoImagen_tk, height=250, width=200, bg="white")
+  etiqueta_logo.pack()
 
-#correo = str(entry_correo.get())
-#imagen
-#logoImagen = Image.open("/mnt/c/Users/Juanfran/OneDrive/Escritorio/-w-/Company-Cold_Porcelain/Press1.png")
-#logoImagen_tk = ImageTk.PhotoImage(logoImagen)
-#etiqueta
-#etiqueta_logo = tk.Label(nueva, image=logoImagen_tk, height=300, width=500, bg="pink").place(x=200, y=100)
-#label_correo = tk.Label(nueva, text = "Ingresar correo electrónico", fg = "dark blue", font = ("calibri", 12))
-#label_correo.pack()
-#entry_correo = tk.Entry(nueva, bg = "lavender")
-#entry_correo.pack()
+  label_user = tk.Label(new, text = "Ingresar Usuario", bg= "white", fg = "dark blue", font = ("calibri", 14))
+  label_user.place(width=230, x=300, y=250)
+  entry_user = tk.Entry(new, bg = "SlateGray3", font = ("calibri", 13))
+  entry_user.place(width = 320, height=30, x=345, y=300)
 
-
-# Boton de llamado a ventana 2
-boton_admin = tk.Button(ventana, text = "Administrador", bg = "dark blue", fg="white", font = ("calibri", 12), command=nuevaVentana)
-boton_admin.place(relx = 0.5, rely = 0.7, width = 200, height=50, anchor = 'c')
-
-ventana.mainloop()
+  label_password = tk.Label(new, text = "Ingresar contraseña", bg= "white", fg = "dark blue", font = ("calibri", 14))
+  label_password.place(width=250, x=300, y=380)
+  entry_password = tk.Entry(new, bg = "SlateGray3", font = ("calibri", 13), show="*")
+  entry_password.place(width = 320, height=30, x=345, y=430)
+  
+  #if (entry_password.focus_displayof):
+    #if (signin(entry_user, entry_password) == False): 
+  label_error = tk.Label(new, text = "Solo puede ingresar el usuario administrativo", bg= "white", fg = "dark blue", font = ("calibri", 8))
+  label_error.place(x=385, y=495)
+  
+  #Botón
+  boton_login = tk.Button(new, text="Ingresar", bg = "dark blue", fg="white", font = ("calibri", 14), command=partial(signin, entry_user, entry_password))
+  boton_login.place(relx = 0.5, rely = 0.8, width = 200, height=40, anchor = 'c')
+  new.mainloop()
