@@ -18,8 +18,8 @@ def Login(window):
   labelImage_tk = ImageTk.PhotoImage(labelImage)
 
   #etiqueta imagen
-  label_logo = tk.Label(new, image=labelImage_tk, height=250, width=200, bg=BACKGROUND)
-  label_logo.pack()
+  label_Image = tk.Label(new, image=labelImage_tk, height=250, width=200, bg=BACKGROUND)
+  label_Image.pack()
 
   label_user = tk.Label(new, text = "Ingresar Usuario", bg= BACKGROUND, fg = DARK_BLUE, font = (FONT, 14))
   label_user.place(width=320, x=495, y=250)
