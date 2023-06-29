@@ -4,11 +4,16 @@ from PIL import Image, ImageTk
 from tkinter import messagebox
 from functools import partial
 from constants import *
+from Table import Table as tb
+from functions import *
+from ClassProduct import Product
 
 def Signin(entry_user, entry_password, new):
   
   username = entry_user.get()
   password = entry_password.get()
+  p = Product()
+  products = [p]
   
   if (username == USER and password == PASSWORD):
     new.withdraw()
@@ -29,7 +34,7 @@ def Signin(entry_user, entry_password, new):
     label_Picture.place(x = 20, y = 10)
 
     #FRAME -COLUMNA #1
-    frame = tk.Frame(new_window, width = 350, height= 450, bg= LAVANDER)
+    frame = tk.Frame(new_window, width = 350, height= 500, bg= LAVANDER)
     frame.place(x=20, y=120)
     
     # CONTENIDO DE COLUMNA #1
@@ -70,8 +75,50 @@ def Signin(entry_user, entry_password, new):
     entry_desc.place(width = 160, height = 25, x = 165, y = 375)
 
     # FRAME 2 - COLUMNA 2
+    frame_2 = tk.Frame(new_window, width = 1075, height= 750, bg= LAVANDER)
+    frame_2.place(x=410, y=120)
+    
     # Función Buscar
+    frame_search = tk.Frame(frame_2, width = 1050, height= 80, bg= BACKGROUND)
+    frame_search.place(x=10, y=10)
 
+    name_search = tk.Label(frame_search, text = "Nombre a buscar", bg = BACKGROUND, fg = DARK_BLUE, font = (FONT, 14, BOLD))
+    name_search.place(x=20, y=20 )
+    entryName_search = tk.Entry(frame_search, bg = LAVANDER, font = (FONT, 13))
+    entryName_search.place(width = 180, height=30, x=170, y=20)
+
+    sku_search = tk.Label(frame_search, text = "SKU", bg = BACKGROUND, fg = DARK_BLUE, font = (FONT, 14, BOLD))
+    sku_search.place(x=420, y=20 )
+    entrySku_search = tk.Entry(frame_search, bg = LAVANDER, font = (FONT, 13))
+    entrySku_search.place(width = 180, height=30, x=470, y=20)
+    
+    search = entryName_search, entrySku_search
+
+    frame_table = tk.Frame(frame_2, width = 1075, height= 600, bg= BACKGROUND) # se crea el frame que contiene la tabla
+    frame_table.place(x=10, y=100)
+
+    button_search = tk.Button(frame_search, text = "Buscar", bg = DARK_BLUE, fg = BACKGROUND, font = (FONT, 14, BOLD), command = partial(searchProducts, search, products, frame_table, tb, frame_2))
+    button_search.place(width=180, x = 760, y = 15)
+
+    # Tabla
+    tb(frame_table, products) # se crea la tabla
+    product = entry_ref, entry_sku, entry_name, entry_color, entry_quantityKil, entry_price, entry_desc
+
+    # Botones
+    button_register = tk.Button(new_window, text = 'Registrar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14), command = partial(productRegister, product, products, frame_table, tb, frame_2))
+    button_register.place(width=130, x = 20, y = 680)
+
+    button_refresh = tk.Button(new_window, text = 'Actualizar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14))
+    button_refresh.place(width=130, x = 215, y = 680)
+
+    button_delete = tk.Button(new_window, text = 'Eliminar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14))
+    button_delete.place(width=130, x = 20, y = 750)
+
+    button_grafics = tk.Button(new_window, text = 'Gráficas', bg= "blue violet", fg = BACKGROUND, font = (FONT, 14))
+    button_grafics.place(width=130, x = 215, y = 750)
+
+    button_out = tk.Button(new_window, text = 'Salir', bg= "red", fg = BACKGROUND, font = (FONT, 14))
+    button_out.place(width=130, x = 20, y = 820)
 
     new_window.mainloop()
 

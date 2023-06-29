@@ -8,8 +8,8 @@ TITLE_WINDOWS = "Cold Porcelain: Administrativo"
 BACKGROUND = "white"
 
 # Usuario y contraseña establecidas para el ingreso
-USER ="admin"
-PASSWORD = "1"
+USER =""
+PASSWORD = ""
 
 # color lavanda
 LAVANDER = "SlateGray3"
