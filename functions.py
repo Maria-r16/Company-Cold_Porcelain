@@ -40,3 +40,6 @@ def searchProducts(product, arrayProducts, frame, tableConstructor, container):
     # Limpiar campos 
     for i in range(len(product)):
         product[i].delete(0, tk.END)
+    
+def exit(window):
+    window.destroy()

@@ -11,7 +11,7 @@ def main():
     window.title(TITLE_WINDOWS)
     window.configure(bg = BACKGROUND)
     window.resizable(False, False)
-    image = Image.open(r"C:\Users\franc\OneDrive\Escritorio\Universidad del Valle\Company-Cold_Porcelain\Imagenes\Marca.png")
+    image = Image.open(r"C:\Users\franc\OneDrive\Escritorio\Company-Cold_Porcelain\Imagenes\Marca.png")
     image_tk = ImageTk.PhotoImage(image)
 
     # Crear un widget de etiqueta con la imagen

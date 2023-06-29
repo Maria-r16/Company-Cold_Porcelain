@@ -27,7 +27,7 @@ def Signin(entry_user, entry_password, new):
     title.place(x = 550, y = 15)
 
     # IMAGEN
-    labelPicture = Image.open(r"C:\Users\franc\OneDrive\Escritorio\Universidad del Valle\Company-Cold_Porcelain\Imagenes\Loguito.png")
+    labelPicture = Image.open(r"C:\Users\franc\OneDrive\Escritorio\Company-Cold_Porcelain\Imagenes\Loguito.png")
     labelPicture_tk = ImageTk.PhotoImage(labelPicture)
     # Etiqueta de Imagen
     label_Picture = tk.Label(new_window, image=labelPicture_tk, height=100, width=100, bg= BACKGROUND)
@@ -63,7 +63,6 @@ def Signin(entry_user, entry_password, new):
     entry_quantityKil = tk.Entry(frame, bg = BACKGROUND, font = (FONT, 13))
     entry_quantityKil.place(width = 160, height = 25, x = 165, y = 270)
   
-    #función
     price = tk.Label(frame, text="Precio", bg = LAVANDER, fg = DARK_BLUE, font = (FONT, 14, BOLD))
     price.place(x = 45, y = 325)
     entry_price = tk.Entry(frame, bg = BACKGROUND, font = (FONT, 13))
@@ -114,11 +113,11 @@ def Signin(entry_user, entry_password, new):
     button_delete = tk.Button(new_window, text = 'Eliminar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14))
     button_delete.place(width=130, x = 20, y = 750)
 
-    button_grafics = tk.Button(new_window, text = 'Gráficas', bg= "blue violet", fg = BACKGROUND, font = (FONT, 14))
-    button_grafics.place(width=130, x = 215, y = 750)
+    # button_grafics = tk.Button(new_window, text = 'Gráficas', bg= "blue violet", fg = BACKGROUND, font = (FONT, 14))
+    # button_grafics.place(width=130, x = 20, y = 820)
 
-    button_out = tk.Button(new_window, text = 'Salir', bg= "red", fg = BACKGROUND, font = (FONT, 14))
-    button_out.place(width=130, x = 20, y = 820)
+    button_out = tk.Button(new_window, text = 'Salir', bg= "red", fg = BACKGROUND, font = (FONT, 14), command = partial(exit, new_window))
+    button_out.place(width=130, x = 215, y = 750)
 
     new_window.mainloop()
 

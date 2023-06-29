@@ -14,7 +14,7 @@ def Login(window):
   new.resizable(False, False)
 
   #imagen
-  labelImage = Image.open(r"C:\Users\franc\OneDrive\Escritorio\Universidad del Valle\Company-Cold_Porcelain\Imagenes\Logo.png")
+  labelImage = Image.open(r"C:\Users\franc\OneDrive\Escritorio\Company-Cold_Porcelain\Imagenes\Logo.png")
   labelImage_tk = ImageTk.PhotoImage(labelImage)
 
   #etiqueta imagen
