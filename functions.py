@@ -1,57 +1,111 @@
 import tkinter as tk
 from constants import *
 from ClassProduct import *
+from tkinter import messagebox
 
-def productRegister(product, arrayProducts, frame, tableConstructor, container):
+def productRegister(product, arrayProducts, table):
     # Se crea un objeto de la clase producto y se accede a cada entrada(entry)  
     objProduct = Product(ref=product[0].get(), name=product[1].get(), color=product[2].get(), sku=product[3].get(), quantityKil=product[4].get(), place=product[5].get(), desc=product[6].get())
     arrayProducts.append(objProduct) # Se registran productos
-    
-    # Actualizando vista
-    frame.destroy()
-    frame_table = tk.Frame(container, width = 1030, height= 600, bg= BACKGROUND)
-    frame_table.place(x=10, y=100)
-    tableConstructor(frame_table, arrayProducts)
+    table.insert("", tk.END, values=(objProduct.ref, objProduct.name, objProduct.color, objProduct.sku, objProduct.quantityKil, objProduct.place, objProduct.desc))
 
     # Limpiar campos 
-    for i in range(len(product)):
-        if product[i] != product[1] or product[i] != product[2]:
-            product[i].delete(0, tk.END)
+    # for i in range(len(product)):
+    #     if i != 1 and i != 2:
+    #         product[i].delete(0, tk.END)
+    #     elif i == 1:
+    #         product[i].set("Nombre Producto")
+    #     elif i == 2:
+    #         product[i].set("Elegir Color")
+    messagebox.showinfo(message="Registrado con éxito", title="Registrar")
+            
 
-def searchProducts(product, arrayProducts, frame, tableConstructor, container):
-    # Se crea un objeto de la clase producto y se accede a cada entrada(entry)  
-    objProduct = Product(sku=product[1].get(), name=product[0].get())
-    p = Product()
+def searchProducts(search, arrayProducts, table, isSearch):
+    isSearch.set(True)
+    objProduct = Product(name=search[0].get(), sku=search[1].get())
+    for prod in arrayProducts:
+        if prod.name == objProduct.name and prod.sku == objProduct.sku:
+            ##delete all rows and show the product found
+            table.delete(*table.get_children())
+            table.insert("", tk.END, values=(prod.ref, prod.name, prod.color, prod.sku, prod.quantityKil, prod.place, prod.desc))
+            # break
+    # Limpiar campos 
+    # for i in range(len(product)):
+    #     if i != 1 and i != 2:
+    #         product[i].delete(0, tk.END)
+    #     elif i == 1:
+    #         product[i].set("Nombre Producto")
+    #     elif i == 2:
+    #         product[i].set("Elegir Color")
     
-    # Se busca producto
-    searchProd = []
-    for i in range(len(arrayProducts)):
-        if (objProduct.name == arrayProducts[i].name and objProduct.sku == arrayProducts[i].sku):
-            foundProduct = Product(ref=arrayProducts[i].ref, name=arrayProducts[i].name, color=arrayProducts[i].color, sku=arrayProducts[i].sku, quantityKil=arrayProducts[i].quantityKil, place=arrayProducts[i].place, desc=arrayProducts[i].desc)
-            searchProd.append(foundProduct)
-
-    print(len(arrayProducts), len(searchProd))
     
-    # Actualizando vista
-    frame.destroy()
-    frame_table = tk.Frame(container, width = 1030, height= 600, bg= BACKGROUND)
-    frame_table.place(x=10, y=100)
-    tableConstructor(frame_table, searchProd)
+def deleteProduct(product, arrayProducts, table):
+    objProduct = Product(ref=product[0].get(), name=product[1].get(), color=product[2].get(), sku=product[3].get(), quantityKil=product[4].get(), place=product[5].get(), desc=product[6].get())
+    
+    messageDel = messagebox.askokcancel("Eliminar","¿Desea eliminar producto?")
+    if messageDel == True:
+        for prod in arrayProducts:
+            if prod.name == objProduct.name and prod.sku == objProduct.sku:
+                arrayProducts.remove(prod)
+                table.delete(*table.get_children())
+                for prod in arrayProducts:
+                    table.insert("", tk.END, values=(prod.ref, prod.name, prod.color, prod.sku, prod.quantityKil, prod.place, prod.desc))
+                messagebox.showinfo(message="Se ha eliminado correctamente", title="Éxito")
+                break
 
     # Limpiar campos 
-    for i in range(len(product)):
-        product[i].delete(0, tk.END)
-    
-def deleteProduct(products, ):
-    pass
-    # try:
-    
-    # except:
-    #     title = "Eliminar un producto"
-    #     message = "No hay registros en Buscar Producto"
-    #     messagebox.showerror(title, message)
+    # for i in range(len(product)):
+    #     if i != 1 and i != 2:
+    #         product[i].delete(0, tk.END)
+    #     elif i == 1:
+    #         product[i].set("Nombre Producto")
+    #     elif i == 2:
+    #         product[i].set("Elegir Color")
+
+
+def updateProduct(product, arrayProducts, table):
+    objProduct = Product(ref=product[0].get(), name=product[1].get(), color=product[2].get(), sku=product[3].get(), quantityKil=product[4].get(), place=product[5].get(), desc=product[6].get())
+    for prod in arrayProducts:
+        if prod.name == objProduct.name and prod.sku == objProduct.sku:
+            prod.ref = objProduct.ref
+            prod.color = objProduct.color
+            prod.quantityKil = objProduct.quantityKil
+            prod.place = objProduct.place
+            prod.desc = objProduct.desc
+            table.delete(*table.get_children())
+            for prod in arrayProducts:
+                table.insert("", tk.END, values=(prod.ref, prod.name, prod.color, prod.sku, prod.quantityKil, prod.place, prod.desc))
+            messagebox.showinfo(message="Se actualizo el producto correctamente", title="Éxito")
+            break
+
+    # Limpiar campos 
+    # for i in range(len(product)):
+    #     if i != 1 and i != 2:
+    #         product[i].delete(0, tk.END)
+    #     elif i == 1:
+    #         product[i].set("Nombre Producto")
+    #     elif i == 2:
+    #         product[i].set("Elegir Color")
 
 
 def exit(window):
-    window.destroy()
+    messagExit = messagebox.askquestion("Salir", "¿Esta seguro que desea salir?")
+    if messagExit == "yes":
+        window.destroy()
 
+
+# obtiene los valores de la fila y los envia al formulario
+def getRow(event, table, product, isSearch):
+      if not isSearch.get():
+        return print("haga una busqueda primero")
+      
+      item = table.item(table.focus())    
+      # cargar formulario con los datos de la fila seleccionada
+      for i in range(len(product)):
+            if i != 1 and i != 2:
+                  product[i].delete(0, tk.END)
+                  product[i].insert(0, item['values'][i])
+            elif i == 1:
+                  product[i].set(item['values'][i])
+            elif i == 2:
+                  product[i].set(item['values'][i])

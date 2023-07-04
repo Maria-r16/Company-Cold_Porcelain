@@ -1,6 +1,5 @@
 import tkinter as tk
 from PIL import Image, ImageTk
-from tkinter import messagebox
 from constants import *
 from login import Login
 from functools import partial

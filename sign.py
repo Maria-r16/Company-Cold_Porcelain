@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import messagebox
@@ -12,8 +13,7 @@ def Signin(entry_user, entry_password, new):
   
   username = entry_user.get()
   password = entry_password.get()
-  p = Product()
-  products = [p]
+  products = []
   
   if (username == USER and password == PASSWORD):
     new.withdraw()
@@ -22,6 +22,7 @@ def Signin(entry_user, entry_password, new):
     new_window.title(TITLE_WINDOWS)
     new_window.configure(bg = BACKGROUND)
     new_window.resizable(False, False)
+    isSearch = BooleanVar(new_window, False)
     
     title = tk.Label(new_window, text = "Control de Inventario", bg= BACKGROUND, fg = DARK_BLUE, font = (FONT, 35, BOLD))
     title.place(x = 550, y = 15)
@@ -47,7 +48,7 @@ def Signin(entry_user, entry_password, new):
     name.place(x = 45, y = 105)
     selec_name = tk.StringVar(frame)
     selec_name.set("Nombre Producto")
-    options = ["Foamy Moldeable", "Cold Colores", "Cold Flexible", "Cold Special", "Cold Special Tradicional", "Cold Special Extra Blanca"]
+    options = ["Foamy Moldeable", "Cold Colores", "Cold Flexible", "Cold Special"]
     menu = tk.OptionMenu(frame, selec_name, *options)
     menu.config(width=20)
     menu.place(width = 160, height = 25, x = 165, y = 105)
@@ -85,40 +86,64 @@ def Signin(entry_user, entry_password, new):
     frame_2 = tk.Frame(new_window, width = 1075, height= 750, bg= LAVANDER)
     frame_2.place(x=410, y=120)
     
-    # Función Buscar
-    frame_search = tk.Frame(frame_2, width = 1050, height= 80, bg= BACKGROUND)
-    frame_search.place(x=10, y=10)
+    # FRAME 3 - Sección Buscar
+    frameSearch = tk.Frame(frame_2, width = 1050, height= 600, bg= BACKGROUND)
+    frameSearch.place(x=10, y=10)
 
-    name_search = tk.Label(frame_search, text = "Nombre a buscar", bg = BACKGROUND, fg = DARK_BLUE, font = (FONT, 14, BOLD))
+    name_search = tk.Label(frameSearch, text = "Nombre a buscar", bg = BACKGROUND, fg = DARK_BLUE, font = (FONT, 14, BOLD))
     name_search.place(x=20, y=20 )
-    entryName_search = tk.Entry(frame_search, bg = LAVANDER, font = (FONT, 13))
-    entryName_search.place(width = 180, height=30, x=170, y=20)
+    selec_searchName = tk.StringVar(frameSearch)
+    selec_searchName.set("Seleccione el nombre")
+    optionsSearch = ["Foamy Moldeable", "Cold Colores", "Cold Flexible", "Cold Special"]
+    menuSearch = tk.OptionMenu(frameSearch, selec_searchName, *optionsSearch)
+    menuSearch.config(width=20, bg=LAVANDER)
+    menuSearch.place(width = 180, height=30, x=170, y=20)
 
-    sku_search = tk.Label(frame_search, text = "SKU", bg = BACKGROUND, fg = DARK_BLUE, font = (FONT, 14, BOLD))
+    sku_search = tk.Label(frameSearch, text = "SKU", bg = BACKGROUND, fg = DARK_BLUE, font = (FONT, 14, BOLD))
     sku_search.place(x=420, y=20 )
-    entrySku_search = tk.Entry(frame_search, bg = LAVANDER, font = (FONT, 13))
+    entrySku_search = tk.Entry(frameSearch, bg = LAVANDER, font = (FONT, 13))
     entrySku_search.place(width = 180, height=30, x=470, y=20)
     
-    search = entryName_search, entrySku_search
+    search = selec_searchName, entrySku_search # recibe las entradas
 
-    frame_table = tk.Frame(frame_2, width = 1075, height= 600, bg= BACKGROUND) # se crea el frame que contiene la tabla
+    frame_table = tk.Frame(frame_2, width = 1050, height= 630, bg= LAVANDER) # se crea el frame que contiene la tabla
     frame_table.place(x=10, y=100)
 
-    button_search = tk.Button(frame_search, text = "Buscar Producto", bg = DARK_BLUE, fg = BACKGROUND, font = (FONT, 14, BOLD), command = partial(searchProducts, search, products, frame_table, tb, frame_2))
-    button_search.place(width=180, x = 760, y = 15)
-
     # Tabla
-    tb(frame_table, products) # se crea la tabla
+    headerTable = ["No. Referencia", "Nombre", "Color", "SKU", "Cant. Kilogramos", "Precio", "Descripción"]
+    table = ttk.Treeview(frame_table, columns = headerTable, show = "headings", height = 25)
+    table.place(x = 0, y = 10, width = 1050, height = 630)
+
+    for i in headerTable:
+      table.heading(i, text = i, bg = DARK_BLUE, fg = BACKGROUND)
+      table.column(i, width = 150, anchor = tk.CENTER)
+
+    #scrollbar horizontal
+    # scrollbar = ttk.Scrollbar(table, orient=tk.HORIZONTAL, command=table.xview)
+    # table.configure(xscroll=scrollbar.set)
+    # scrollbar.place(x = 0, y = 605, width = 1050)
+
+    #scrollbar vertical
+    scrollbar = ttk.Scrollbar(table, orient=tk.VERTICAL, command=table.yview)
+    table.configure(yscroll=scrollbar.set)
+    scrollbar.place(x = 1030, y = 10, height = 630)
+    
     product = entry_ref, selec_name, selec_color, entry_sku, entry_quantityKil, entry_price, entry_desc
 
+    ##on click row
+    table.bind('<ButtonRelease-1>', lambda e: getRow(e, table, product, isSearch))
+
     # Botones
-    button_register = tk.Button(new_window, text = 'Registrar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14), command = partial(productRegister, product, products, frame_table, tb, frame_2))
+    button_search = tk.Button(frameSearch, text = "Buscar Producto", bg = DARK_BLUE, fg = BACKGROUND, font = (FONT, 14, BOLD), command = partial(searchProducts, search, products, table, isSearch))
+    button_search.place(width=180, x = 760, y = 15)
+    
+    button_register = tk.Button(new_window, text = 'Registrar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14), command = partial(productRegister, product, products, table))
     button_register.place(width=130, x = 20, y = 680)
 
-    button_refresh = tk.Button(new_window, text = 'Actualizar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14))
+    button_refresh = tk.Button(new_window, text = 'Actualizar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14), command= partial(updateProduct, product, products, table))
     button_refresh.place(width=130, x = 215, y = 680)
 
-    button_delete = tk.Button(new_window, text = 'Eliminar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14))
+    button_delete = tk.Button(new_window, text = 'Eliminar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14), command= partial(deleteProduct, product, products, table))
     button_delete.place(width=130, x = 20, y = 750)
 
     # button_grafics = tk.Button(new_window, text = 'Gráficas', bg= "blue violet", fg = BACKGROUND, font = (FONT, 14))
