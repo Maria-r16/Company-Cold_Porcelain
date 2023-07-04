@@ -67,20 +67,23 @@ def Signin(entry_user, entry_password, new):
     entry_sku = tk.Entry(frame, bg = BACKGROUND, font = (FONT, 13))
     entry_sku.place(width = 160, height = 25, x = 165, y = 215)
 
+    desSku = tk.Label(frame, text= "Ingresar las dos iniciales del nombre en mayuscula y el \nnumero del color separados por un guión. Ej: FM-110", bg = "dark slate blue", fg = BACKGROUND)
+    desSku.place(x = 30, y = 245)
+
     quantityKil = tk.Label(frame, text="Cant. Kilogramos", bg = LAVANDER, fg = DARK_BLUE, font = (FONT, 14, BOLD))
-    quantityKil.place(x = 15, y = 270)
+    quantityKil.place(x = 15, y = 300)
     entry_quantityKil = tk.Entry(frame, bg = BACKGROUND, font = (FONT, 13))
-    entry_quantityKil.place(width = 160, height = 25, x = 165, y = 270)
+    entry_quantityKil.place(width = 160, height = 25, x = 165, y = 300)
   
     price = tk.Label(frame, text="Precio", bg = LAVANDER, fg = DARK_BLUE, font = (FONT, 14, BOLD))
-    price.place(x = 45, y = 325)
+    price.place(x = 45, y = 355)
     entry_price = tk.Entry(frame, bg = BACKGROUND, font = (FONT, 13))
-    entry_price.place(width = 160, height = 25, x = 165, y = 325)
+    entry_price.place(width = 160, height = 25, x = 165, y = 355)
 
     desc = tk.Label(frame, text="Descripcion", bg = LAVANDER, fg = DARK_BLUE, font = (FONT, 14, BOLD))
-    desc.place(x = 25, y = 375)
+    desc.place(x = 25, y = 410)
     entry_desc = tk.Entry(frame, bg = BACKGROUND, font = (FONT, 13))
-    entry_desc.place(width = 160, height = 25, x = 165, y = 375)
+    entry_desc.place(width = 160, height = 25, x = 165, y = 410)
 
     # FRAME 2 - COLUMNA 2
     frame_2 = tk.Frame(new_window, width = 1075, height= 750, bg= LAVANDER)
@@ -115,7 +118,7 @@ def Signin(entry_user, entry_password, new):
     table.place(x = 0, y = 10, width = 1050, height = 630)
 
     for i in headerTable:
-      table.heading(i, text = i, bg = DARK_BLUE, fg = BACKGROUND)
+      table.heading(i, text = i)
       table.column(i, width = 150, anchor = tk.CENTER)
 
     #scrollbar horizontal
@@ -140,10 +143,10 @@ def Signin(entry_user, entry_password, new):
     button_register = tk.Button(new_window, text = 'Registrar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14), command = partial(productRegister, product, products, table))
     button_register.place(width=130, x = 20, y = 680)
 
-    button_refresh = tk.Button(new_window, text = 'Actualizar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14), command= partial(updateProduct, product, products, table))
+    button_refresh = tk.Button(new_window, text = 'Actualizar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14), command= partial(updateProduct, product, products, table, isSearch))
     button_refresh.place(width=130, x = 215, y = 680)
 
-    button_delete = tk.Button(new_window, text = 'Eliminar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14), command= partial(deleteProduct, product, products, table))
+    button_delete = tk.Button(new_window, text = 'Eliminar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14), command= partial(deleteProduct, product, products, table, isSearch))
     button_delete.place(width=130, x = 20, y = 750)
 
     # button_grafics = tk.Button(new_window, text = 'Gráficas', bg= "blue violet", fg = BACKGROUND, font = (FONT, 14))
