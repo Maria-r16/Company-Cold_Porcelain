@@ -42,21 +42,29 @@ def Signin(entry_user, entry_password, new):
     ref.place(x = 20, y = 45)
     entry_ref = tk.Entry(frame, bg = BACKGROUND, font = (FONT, 13))
     entry_ref.place(width = 160, height = 25, x = 165, y = 50)
-
-    sku= tk.Label(frame, text="SKU", bg= LAVANDER, fg = DARK_BLUE, font = (FONT, 14, BOLD))
-    sku.place(x = 55, y = 105)
-    entry_sku = tk.Entry(frame, bg = BACKGROUND, font = (FONT, 13))
-    entry_sku.place(width = 160, height = 25, x = 165, y = 105)
-
+    
     name = tk.Label(frame, text="Nombre", bg = LAVANDER, fg = DARK_BLUE, font = (FONT, 14, BOLD))
-    name.place(x = 45, y = 160)
-    entry_name = tk.Entry(frame, bg = BACKGROUND, font = (FONT, 13))
-    entry_name.place(width = 160, height = 25, x = 165, y = 160)
+    name.place(x = 45, y = 105)
+    selec_name = tk.StringVar(frame)
+    selec_name.set("Nombre Producto")
+    options = ["Foamy Moldeable", "Cold Colores", "Cold Flexible", "Cold Special", "Cold Special Tradicional", "Cold Special Extra Blanca"]
+    menu = tk.OptionMenu(frame, selec_name, *options)
+    menu.config(width=20)
+    menu.place(width = 160, height = 25, x = 165, y = 105)
 
     color = tk.Label(frame, text="Color", bg = LAVANDER, fg = DARK_BLUE, font = (FONT, 14, BOLD))
-    color.place(x = 47, y = 215)
-    entry_color = tk.Entry(frame, bg = BACKGROUND, font = (FONT, 13))
-    entry_color.place(width = 160, height = 25, x = 165, y = 215)
+    color.place(x = 47, y = 160)
+    selec_color = tk.StringVar(frame)
+    selec_color.set("Elegir Color")
+    optionsColor = ["Blanco: 101", "Negro: 102", "Cafe claro: 107", "Cafe oscuro: 108", "Amarillo: 109", "Amarillo claro: 110", "Amarillo fluorescente: 111", "Naranja: 112", "Naranja fluorescente: 113", "Rojo: 114", "Rosado: 115", "Fucsia: 116", "Piel clara: 118", "Piel oscura: 119", "Morado: 120", "Azul claro: 126", "Azul oscuro: 128", "Verde claro: 132", "Verde esmeralda: 133", "Verde oscuro: 136","", "Cold Flexible:", "207", "", "Cold Special:", "Tradicional: 203", "Extra blanca: 205"]
+    menuColor = tk.OptionMenu(frame, selec_color, *optionsColor)
+    menuColor.config(width=20)
+    menuColor.place(width = 160, height = 25, x = 165, y = 160)
+
+    sku = tk.Label(frame, text="SKU", bg= LAVANDER, fg = DARK_BLUE, font = (FONT, 14, BOLD))
+    sku.place(x = 55, y = 215)
+    entry_sku = tk.Entry(frame, bg = BACKGROUND, font = (FONT, 13))
+    entry_sku.place(width = 160, height = 25, x = 165, y = 215)
 
     quantityKil = tk.Label(frame, text="Cant. Kilogramos", bg = LAVANDER, fg = DARK_BLUE, font = (FONT, 14, BOLD))
     quantityKil.place(x = 15, y = 270)
@@ -96,12 +104,12 @@ def Signin(entry_user, entry_password, new):
     frame_table = tk.Frame(frame_2, width = 1075, height= 600, bg= BACKGROUND) # se crea el frame que contiene la tabla
     frame_table.place(x=10, y=100)
 
-    button_search = tk.Button(frame_search, text = "Buscar", bg = DARK_BLUE, fg = BACKGROUND, font = (FONT, 14, BOLD), command = partial(searchProducts, search, products, frame_table, tb, frame_2))
+    button_search = tk.Button(frame_search, text = "Buscar Producto", bg = DARK_BLUE, fg = BACKGROUND, font = (FONT, 14, BOLD), command = partial(searchProducts, search, products, frame_table, tb, frame_2))
     button_search.place(width=180, x = 760, y = 15)
 
     # Tabla
     tb(frame_table, products) # se crea la tabla
-    product = entry_ref, entry_sku, entry_name, entry_color, entry_quantityKil, entry_price, entry_desc
+    product = entry_ref, selec_name, selec_color, entry_sku, entry_quantityKil, entry_price, entry_desc
 
     # Botones
     button_register = tk.Button(new_window, text = 'Registrar', bg= DARK_BLUE, fg = BACKGROUND, font = (FONT, 14), command = partial(productRegister, product, products, frame_table, tb, frame_2))
