@@ -24,36 +24,41 @@ def searchProducts(search, arrayProducts, table, isSearch):
     isSearch.set(True)
     objProduct = Product(name=search[0].get(), sku=search[1].get())
     for prod in arrayProducts:
+        print(prod)
+        print(prod.name, objProduct.name, prod.sku, objProduct.sku)
         if prod.name == objProduct.name and prod.sku == objProduct.sku:
             # eliminar todas las filas y mostrar el producto encontrado
             table.delete(*table.get_children())
+            #inserta fila encontrada
             table.insert("", tk.END, values=(prod.ref, prod.name, prod.color, prod.sku, prod.quantityKil, prod.place, prod.desc))
             # Limpiar campos 
-            search[1].delete(0, tk.END)
             search[0].set("Nombre Producto") 
+            search[1].delete(0, tk.END)
             return
-        else:
-            messagebox.showerror(title= None, message= "Producto no encontrado")
-            return isSearch.set(False)
+    messagebox.showerror(title= None, message= "Producto no encontrado")
+    search[0].set("Nombre Producto") 
+    search[1].delete(0, tk.END)
+    return isSearch.set(False)
         
     
 def deleteProduct(product, arrayProducts, table, isSearch):
     objProduct = Product(ref=product[0].get(), name=product[1].get(), color=product[2].get(), sku=product[3].get(), quantityKil=product[4].get(), place=product[5].get(), desc=product[6].get())
-    
     messageDel = messagebox.askokcancel("Eliminar","¿Desea eliminar producto?")
-    if messageDel == True:
+    if messageDel:
         for prod in arrayProducts:
             if prod.name == objProduct.name and prod.sku == objProduct.sku:
+                #quitar producto del array de productos
                 arrayProducts.remove(prod)
+                #actualizando vista
                 table.delete(*table.get_children())
                 for prod in arrayProducts:
                     table.insert("", tk.END, values=(prod.ref, prod.name, prod.color, prod.sku, prod.quantityKil, prod.place, prod.desc))
                 messagebox.showinfo(message="Se ha eliminado correctamente", title="Éxito")
                 isSearch.set(False)
                 return
-            else:
-                messagebox.showerror(title= None, message="No se logró eliminar producto \n El Nombre y SKU no se puede cambiar")
-                return isSearch.set(False)
+            
+        messagebox.showerror(title= None, message="No se logró eliminar producto \n El Nombre y SKU no se puede cambiar")
+        return isSearch.set(False)
 
     # Limpiar campos 
     for i in range(len(product)):
@@ -74,17 +79,23 @@ def updateProduct(product, arrayProducts, table, isSearch):
             prod.quantityKil = objProduct.quantityKil
             prod.place = objProduct.place
             prod.desc = objProduct.desc
+            #actualizar vista
             table.delete(*table.get_children())
             for prod in arrayProducts:
                 table.insert("", tk.END, values=(prod.ref, prod.name, prod.color, prod.sku, prod.quantityKil, prod.place, prod.desc))
             messagebox.showinfo(message="Se actualizo el producto correctamente", title="Éxito")
             isSearch.set(False)
-            break
-            
-        else:
-            messagebox.showerror(title= None, message="No se logró actualizar producto \n El Nombre y SKU no se puede cambiar")
-            return isSearch.set(False)
-
+            # Limpiar campos 
+            for i in range(len(product)):
+                if i != 1 and i != 2:
+                    product[i].delete(0, tk.END)
+                elif i == 1:
+                    product[i].set("Nombre Producto")
+                elif i == 2:
+                    product[i].set("Elegir Color")
+            return
+    messagebox.showerror(title= None, message="No se logró actualizar producto \n El Nombre y SKU no se puede cambiar")
+    isSearch.set(False)
     # Limpiar campos 
     for i in range(len(product)):
         if i != 1 and i != 2:
@@ -112,7 +123,5 @@ def getRow(event, table, product, isSearch):
             if i != 1 and i != 2:
                   product[i].delete(0, tk.END)
                   product[i].insert(0, item['values'][i])
-            elif i == 1:
-                  product[i].set(item['values'][i])
-            elif i == 2:
+            elif i == 1 or i == 2:
                   product[i].set(item['values'][i])

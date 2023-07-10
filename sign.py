@@ -22,6 +22,8 @@ def Signin(entry_user, entry_password, new):
     new_window.title(TITLE_WINDOWS)
     new_window.configure(bg = BACKGROUND)
     new_window.resizable(False, False)
+    
+    #variable global
     isSearch = BooleanVar(new_window, False)
     
     title = tk.Label(new_window, text = "Control de Inventario", bg= BACKGROUND, fg = DARK_BLUE, font = (FONT, 35, BOLD))
